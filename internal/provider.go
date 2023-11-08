@@ -12,15 +12,16 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
 	"github.com/huaweicloud/terraform-provider-huaweicloud/huaweicloud/config"
+	"github.com/huaweicloud/terraform-provider-huaweicloud/huaweicloud/services/vpc"
 
 	"github.com/huaweicloud/terraform-provider-hcso/internal/hcso_config"
 )
 
 const (
-	defaultCloud string = "myhuaweicloud.com"
+	defaultCloud string = "myhcso.com"
 )
 
-// Provider returns a schema.Provider for HuaweiCloud.
+// Provider returns a schema.Provider for HCSO.
 func Provider() *schema.Provider {
 	provider := &schema.Provider{
 		Schema: map[string]*schema.Schema{
@@ -283,9 +284,13 @@ func Provider() *schema.Provider {
 			},
 		},
 
-		DataSourcesMap: map[string]*schema.Resource{},
+		DataSourcesMap: map[string]*schema.Resource{
+			"hcso_vpc": vpc.DataSourceVpcV1(),
+		},
 
-		ResourcesMap: map[string]*schema.Resource{},
+		ResourcesMap: map[string]*schema.Resource{
+			"hcso_vpc": vpc.ResourceVirtualPrivateCloudV1(),
+		},
 	}
 
 	provider.ConfigureContextFunc = func(ctx context.Context, d *schema.ResourceData) (interface{}, diag.Diagnostics) {
@@ -308,7 +313,7 @@ func init() {
 	descriptions = map[string]string{
 		"auth_url": "The Identity authentication URL.",
 
-		"region": "The HuaweiCloud region to connect to.",
+		"region": "The HCSO region to connect to.",
 
 		"user_name": "Username to login with.",
 
@@ -330,8 +335,8 @@ func init() {
 
 		"domain_name": "The name of the Domain to scope to.",
 
-		"access_key":     "The access key of the HuaweiCloud to use.",
-		"secret_key":     "The secret key of the HuaweiCloud to use.",
+		"access_key":     "The access key of the HCSO to use.",
+		"secret_key":     "The secret key of the HCSO to use.",
 		"security_token": "The security token to authenticate with a temporary security credential.",
 
 		"insecure": "Trust self-signed certificates.",
@@ -352,7 +357,7 @@ func init() {
 
 		"assume_role_domain_name": "The name of domain for assume role.",
 
-		"cloud": "The endpoint of cloud provider, defaults to myhuaweicloud.com",
+		"cloud": "The endpoint of cloud provider, defaults to myhcso.com",
 
 		"endpoints": "The custom endpoints used to override the default endpoint URL.",
 
