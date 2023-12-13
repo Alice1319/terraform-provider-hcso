@@ -24,6 +24,7 @@ import (
 	"github.com/huaweicloud/terraform-provider-huaweicloud/huaweicloud/services/nat"
 	"github.com/huaweicloud/terraform-provider-huaweicloud/huaweicloud/services/tms"
 	"github.com/huaweicloud/terraform-provider-huaweicloud/huaweicloud/services/vpc"
+	"github.com/huaweicloud/terraform-provider-huaweicloud/huaweicloud/services/vpcep"
 
 	"github.com/huaweicloud/terraform-provider-hcso/internal/hcso_config"
 )
@@ -331,6 +332,8 @@ func Provider() *schema.Provider {
 			"hcso_vpc_bandwidth": eip.DataSourceBandWidth(),
 			"hcso_vpc_eip":       eip.DataSourceVpcEip(),
 			"hcso_vpc_eips":      eip.DataSourceVpcEips(),
+
+			"hcso_vpcep_public_services": vpcep.DataSourceVPCEPPublicServices(),
 		},
 
 		ResourcesMap: map[string]*schema.Resource{
@@ -383,6 +386,10 @@ func Provider() *schema.Provider {
 			"hcso_vpc_eip":                  eip.ResourceVpcEIPV1(),
 			"hcso_vpc_eip_associate":        eip.ResourceEIPAssociate(),
 			"hcso_networking_eip_associate": eip.ResourceEIPAssociate(),
+
+			"hcso_vpcep_approval": vpcep.ResourceVPCEndpointApproval(),
+			"hcso_vpcep_endpoint": vpcep.ResourceVPCEndpoint(),
+			"hcso_vpcep_service":  vpcep.ResourceVPCEndpointService(),
 
 			"hcso_tms_tags": tms.ResourceTmsTag(),
 		},
